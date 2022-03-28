@@ -1,0 +1,122 @@
+UC1:
+Create Database:
+CREATE DATABASE AddressBookServiceDB;
+
+UC2:
+Create Table with Columns:
+mysql> CREATE TABLE Contact(FirstName varchar(50), LastName varchar(50), Address varchar(50), City varchar(50), Zip int, PhoneNumber int, Email varchar(50));                                       
+Query OK, 0 rows affected (0.11 sec) 
+
+UC3:
+Adding New Contact in the Table:
+mysql> INSERT INTO Contact VALUES("Moinuddin", "Asraf", "Jaipur", "Jaipur", 123456, 123456, "mamoinuddin@gmail.com");                                                                               
+Query OK, 1 row affected (0.01 sec)
+
+UC4:
+Editing Existing Contact using FirstName:
+mysql> UPDATE Contact SET City="Delhi" where FirstName="Moinuddin";                               
+Query OK, 1 row affected (0.01 sec)                                                               
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Contact;   
++-----------+----------+---------+-------+--------+-------------+-----------------------+         
+| FirstName | LastName | Address | City  | Zip    | PhoneNumber | Email                 |        
++-----------+----------+---------+-------+--------+-------------+-----------------------+         
+| Moinuddin | Asraf    | Jaipur  | Delhi | 123456 |      123456 | mamoinuddin@gmail.com |         
++-----------+----------+---------+-------+--------+-------------+-----------------------+ 
+1 row in set (0.00 sec) 
+
+UC5:
+Deleting Contact Using FirstName
+mysql> DELETE from Contact WHERE FirstName="Moinuddin";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Contact;                                                                     
+Empty set (0.00 sec)   
+
+UC6:
+Retreive data by City:
+mysql> SELECT FirstName FROM Contact where City="Jaipur";
++-----------+
+| FirstName |
++-----------+
+| Moinuddin |
+| Albert    |
++-----------+
+2 rows in set (0.00 sec)
+
+UC7:
+Count of Contacts by City:
+mysql> SELECT COUNT(City) FROM Contact GROUP BY City;
++-------------+
+| COUNT(City) |
++-------------+
+|           2 |
++-------------+
+1 row in set (0.00 sec)
+
+UC8:
+Sorted By FirstName:
+mysql> SELECT FirstName, LastName from Contact ORDER BY FirstName;
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Albert    | Murphy   |
+| Moinuddin | Asraf    |
++-----------+----------+
+2 rows in set (0.00 sec)
+
+UC9:
+Alter AddressBook to Add new Column:
+mysql> ALTER TABLE Contact ADD Type varchar(50);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Contact;
++-----------+----------+---------+--------+--------+-------------+-----------------------+------+
+| FirstName | LastName | Address | City   | Zip    | PhoneNumber | Email                 | Type |
++-----------+----------+---------+--------+--------+-------------+-----------------------+------+
+| Moinuddin | Asraf    | Jaipur  | Jaipur | 123456 |      123456 | mamoinuddin@gmail.com | NULL |
+| Albert    | Murphy   | NY      | Jaipur | 123456 |      123456 | albert@gmail.com      | NULL |
++-----------+----------+---------+--------+--------+-------------+-----------------------+------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE Contact SET Type="Family" WHERE FirstName="Albert";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Contact;
++-----------+----------+---------+--------+--------+-------------+-----------------------+--------+
+| FirstName | LastName | Address | City   | Zip    | PhoneNumber | Email                 | Type   |
++-----------+----------+---------+--------+--------+-------------+-----------------------+--------+
+| Moinuddin | Asraf    | Jaipur  | Jaipur | 123456 |      123456 | mamoinuddin@gmail.com | NULL   |
+| Albert    | Murphy   | NY      | Jaipur | 123456 |      123456 | albert@gmail.com      | Family |
++-----------+----------+---------+--------+--------+-------------+-----------------------+--------+
+2 rows in set (0.00 sec)
+
+UC10:
+Count of Contacts using Type:
+mysql> SELECT COUNT(*) FROM Contact GROUP BY Type;
++----------+
+| COUNT(*) |
++----------+
+|        1 |
+|        1 |
++----------+
+2 rows in set (0.01 sec)
+
+UC11:
+Add Contacts with Type:
+mysql> INSERT INTO Contact VALUES("Bruce", "Wayne", "Delhi", "Delhi", 123456, 123456, "bruce@gmail.com", "Friends");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Contact;
++-----------+----------+---------+--------+--------+-------------+-----------------------+---------+
+| FirstName | LastName | Address | City   | Zip    | PhoneNumber | Email                 | Type    |
++-----------+----------+---------+--------+--------+-------------+-----------------------+---------+
+| Moinuddin | Asraf    | Jaipur  | Jaipur | 123456 |      123456 | mamoinuddin@gmail.com | NULL    |
+| Albert    | Murphy   | NY      | Jaipur | 123456 |      123456 | albert@gmail.com      | Family  |
+| Bruce     | Wayne    | Delhi   | Delhi  | 123456 |      123456 | bruce@gmail.com       | Family  |
+| Bruce     | Wayne    | Delhi   | Delhi  | 123456 |      123456 | bruce@gmail.com       | Friends |
++-----------+----------+---------+--------+--------+-------------+-----------------------+---------+
+4 rows in set (0.00 sec)
